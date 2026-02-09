@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>combine rows</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea" name="text" rows="30" cols="120"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+
+            const output = mergeContactInfo(text);
+            textArea.value = output;
+
+
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function mergeContactInfo(input) {
+            // Split the input into lines and remove any empty lines
+            const lines = input.split('\n').filter(line => line.trim() !== '');
+
+            // Create an object to store the merged rows
+            const mergedRows = {};
+
+            // Loop through each line
+            for (const line of lines) {
+                // Split the line into fields
+                const fields = line.split(',');
+
+                // Get the serial number and the existing merged row (if any)
+                const serialNumber = fields[0];
+                let mergedRow = mergedRows[serialNumber];
+
+                // If this is the first row for this serial number, create a new merged row object
+                if (!mergedRow) {
+                    mergedRow = {
+                        serialNumber,
+                        name: fields[1],
+                        age: fields[2],
+                        homeAddress: fields[3],
+                        contactAddress: fields[4],
+                        qualifications: [],
+                        institutions: [],
+                        experience: [],
+                        remarks: fields[8]
+                    };
+                    mergedRows[serialNumber] = mergedRow;
+                }
+
+                // Add any qualifications, institutions, or experience to the merged row
+                if (fields[5]) mergedRow.qualifications.push(fields[5]);
+                if (fields[6]) mergedRow.institutions.push(fields[6]);
+                if (fields[7]) mergedRow.experience.push(fields[7]);
+
+                // Merge the contact addresses
+                if (fields[4]) {
+                    mergedRow.contactAddress += ' ' + fields[4];
+                    if (fields[8]) mergedRow.remarks = fields[8];
+                }
+            }
+
+            // Convert the merged rows object into an array and join the fields into a string
+            const output = Object.values(mergedRows).map(row => {
+                const qualifications = row.qualifications.join(' ');
+                const institutions = row.institutions.join(' ');
+                const experience = row.experience.join(' ');
+                return `${row.serialNumber},${row.name},${row.age},${row.homeAddress},${row.contactAddress},${qualifications},${institutions},${experience},${row.remarks}`;
+            }).join('\n');
+
+            return output;
+        }
+
+
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

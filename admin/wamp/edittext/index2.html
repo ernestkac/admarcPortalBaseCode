@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Read Text File</title>
+</head>
+
+<body>
+    <input type="file" name="inputfile" id="inputfile">
+    <p>File To Be Searched</p>
+    <br>
+
+    <input type="file" name="inputfile" id="batchesToSeach">
+    <p>File To Search</p>
+    <br>
+    <textarea id="textarea" name="text" rows="30" cols="100"></textarea>
+    <br>
+    <form action="">
+
+        <input id="submit" onclick="seachBatch();" value="Start Search">
+        <br>
+        <textarea id="foundbatches" name="text" rows="30" cols="100"></textarea>
+    </form>
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+        var batches;
+
+        function seachBatch() {
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+            var textAreafoundbatches = getElement("foundbatches");
+
+            var batchesNotFound = [];
+            var j = 0;
+            //console.log(position  + " : ."+ word+ ".");
+
+            getElement("submit").value = "search in progress";
+
+            for (let i = 0; i < batches.length; i++) {
+
+
+
+                var position = text.search(batches[i]);
+                if (position == -1) {
+                    batchesNotFound[j] = batches[i];
+                    j++;
+                }
+                //console.log( i +" : " + word[i]+ "<br>");
+            }
+            textAreafoundbatches.value = batchesNotFound;
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+
+        document.getElementById('inputfile')
+            .addEventListener('change', function() {
+
+                var fr = new FileReader();
+                fr.onload = function() {
+                    document.getElementById('textarea')
+                        .value = fr.result;
+                }
+
+                fr.readAsText(this.files[0]);
+
+            })
+
+
+        document.getElementById('batchesToSeach')
+            .addEventListener('change', function() {
+
+                var fr = new FileReader();
+                fr.onload = function() {
+                    batches = fr.result;
+                    batches = batches.split("\n");
+                    for (var i = 0; i < batches.length; i++) {
+                        batches[i] = batches[i].substring(0, batches[i].length - 1);
+                    }
+                }
+
+                fr.readAsBinaryString(this.files[0]);
+
+            })
+    </script>
+</body>
+
+</html>

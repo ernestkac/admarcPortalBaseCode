@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>edit text</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea" name="text" rows="30" cols="120"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+
+            const rows = text.split('\n');
+            var textToBe = "";
+            var trueValue = "";
+            var trueValueAcct = "";
+            for (let index = 1; index + 1 < rows.length; index++) {
+                const cols = rows[index].split(",");
+                if (trueValue == "") {
+                    //console.log("setting value of true value : " + cols[4].toString());
+                    trueValue = cols[4];
+                }
+                if (trueValueAcct == "" && cols[1].toString().length == 6) {
+                    //console.log("setting value of true value acct : " + cols[1].toString());
+                    trueValueAcct = cols[1];
+                }
+                if (cols[4].toString().length <= 14) {
+                    //console.log("updating value for col 4 : " + cols[4].toString());
+                    //console.log(cols[4].length);
+                    cols[4] = trueValue;
+                } else {
+                    //console.log("updating value of true value : " + trueValue);
+                    trueValue = cols[4];
+                }
+                if (cols[1].toString().length != 6) {
+                    //console.log("updating value for col 1 " + cols[1].toString());
+                    //console.log(cols[1].length);
+                    cols[1] = trueValueAcct;
+                } else {
+                    //console.log("updating value of true acct value" + trueValue);
+                    trueValueAcct = cols[1];
+                }
+                if (cols[9] == "*") {
+                    textToBe = textToBe + String(cols) + "\n";
+                }
+
+            }
+
+            textArea.value = textToBe;
+
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+Acct	BatNbr	Crtd_DateTime	Crtd_User	CuryCrAmt	CuryDrAmt	CuryEffDate	FiscYr	JrnlType	Module	PerEnt	PerPost	Posted	Qty	RefNbr	Sub	TranDate	TranDesc	TranType

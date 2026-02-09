@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>edit text</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea" name="text" rows="30" cols="120"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+
+
+            const values = text.split('\n');
+            var insertStement1 = "SET ansi_warnings OFF\n" +
+                "GO\n" +
+                "INSERT INTO gltran ([Acct],[AppliedDate],[BalanceType],[BaseCuryID],[BatNbr],[CpnyID],\n" +
+                '[CrAmt],[Crtd_DateTime],[Crtd_Prog],[Crtd_User],[CuryCrAmt],[CuryDrAmt],[CuryEffDate],\n' +
+                '[CuryId],[CuryMultDiv],[CuryRate],[CuryRateType],[DrAmt],[EmployeeID],[ExtRefNbr],\n' +
+                '[FiscYr],[IC_Distribution],[Id],[JrnlType],[Labor_Class_Cd],[LedgerID],[LineId],[LineNbr],\n' +
+                '[LineRef],[LUpd_DateTime],[LUpd_Prog],[LUpd_User],[Module],[NoteID],[OrigAcct],[OrigBatNbr],\n' +
+                '[OrigCpnyID],[OrigSub],[PC_Flag],[PC_ID],[PC_Status],[PerEnt],[PerPost],[Posted],[ProjectID],\n' +
+                '[Qty],[RefNbr],[RevEntryOption],[Rlsed],\n' +
+                '[S4Future01],[S4Future02],[S4Future03],[S4Future04],[S4Future05],[S4Future06],[S4Future07],\n' +
+                '[S4Future08],[S4Future09],[S4Future10],[S4Future11],[S4Future12],\n' +
+                '[ServiceDate],[Sub],[TaskID],[TranDate],[TranDesc],[TranType],[Units],[User1],[User2],[User3],[User4],[User5],\n' +
+                "[User6],[User7],[User8])  VALUES\n";
+
+            var valuesHeader = "";
+
+            for (let index = 0; index < values.length; index++) {
+                const row = values[index].split("	");
+
+                valuesHeader = "('" + row[0] + "',CURRENT_TIMESTAMP AS SMALLDATETIME,'A','MWK','" + row[1] + "','A003','" + row[7] +
+                    "',CAST('1900-01-01 00:00:00' AS SMALLDATETIME),'','','" + row[7] + "','" + row[7] + "',CAST('1900-01-01 00:00:00' AS SMALLDATETIME), " +
+                    "'MWK','M','1','','" + row[7] + "','','','" + row[4] + "','0','','CA','', " +
+                    "'ACTUAL','0','" + row[2] + "','',CAST('1900-01-01 00:00:00' AS SMALLDATETIME),'','','CA','','','A003','', " +
+                    "'','','','','" + row[3] + "','" + row[4] + "','U','','0','" + row[5] + "','','1', " +
+                    "'','','0','0','0','0',CAST('1900-01-01 00:00:00' AS SMALLDATETIME),CAST('1900-01-01 00:00:00' AS SMALLDATETIME),'0','0','  ','  ', " +
+                    "CAST('1900-01-01 00:00:00' AS SMALLDATETIME),'" + row[6] + "','',CAST('" + row[8] + "' AS SMALLDATETIME),'" + row[9] + "','ZZ','0','" + row[10] + "','" +
+                    row[11] + "','0','0','', " +
+                    "'',CAST('1900-01-01 00:00:00' AS SMALLDATETIME),CAST('1900-01-01 00:00:00' AS SMALLDATETIME)),\n";
+
+                insertStement1 = insertStement1 + valuesHeader;
+            }
+
+            textArea.value = insertStement1;
+
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

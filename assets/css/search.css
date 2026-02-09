@@ -1,0 +1,27 @@
+.suggestions-box, .search-message-result {
+  display: none;
+  position: absolute;
+  border: 1px solid #ccc;
+  margin-right: 35px;
+  background: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 340px;
+  z-index: 1000;
+  border-radius: 6px;
+}
+.search-message-result{
+  display: block;
+  left: 50%;
+  font-size: large;
+  color: coral;
+}
+.suggestions-box div {
+  padding: 8px;
+  cursor: pointer;
+}
+.suggestions-box div:hover,
+.suggestions-box div.active {
+  background: #007bff;
+  color: white;
+}

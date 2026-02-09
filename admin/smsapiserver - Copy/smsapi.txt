@@ -1,0 +1,26 @@
+http://192.168.8.10/smsapiclient/sendsmsapi.php
+
+post data names
+
+token="308b3bed5a38e430ab35a65106ae36", message="your message", numbers="list of numbers"
+
+
+//usage example
+
+<html>
+    <body>
+
+        <form id="sms-form" action="sendsmsapi.php" method="post">
+
+            <input type="text" id="fname" name="token" value="308b3bed5a38e430ab35a65106ae36">
+            <input type="text" id="lname" name="message" value="this is a text message from the client side">
+            <input type="text" id="fname" name="numbers" value="0997938102,0994544873">
+            <input type="submit" value="Submit">
+
+          </form>
+        <script>
+            document.getElementById("sms-form").submit();
+    </script>
+    </body>
+    
+</html>

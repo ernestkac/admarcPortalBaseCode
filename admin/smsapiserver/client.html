@@ -1,0 +1,17 @@
+<html>
+
+<body>
+    <script>
+        var conn = new WebSocket('ws://192.168.0.66:8080');
+        conn.onopen = function(e) {
+            console.log("Connection established!");
+            conn.send('client web!');
+        };
+
+        conn.onmessage = function(e) {
+            console.log(e.data);
+        };
+    </script>
+</body>
+
+</html>

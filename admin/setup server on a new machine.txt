@@ -1,0 +1,4 @@
+1. make sure the wamp server is running.
+2. make sure the wamp server can be accessed from other devices in the local area network for receiving requests from clients.
+3. run the 'start sms server.bat' if it produces an error the delete the line '$webSock->disableVersion(0);' from the file server.php in bin folder. then run again.
+4. run the client.html to test the connection. if it doesnt show as connected in the javascript console then edit the websocket link to ''ws://<ip address showing in the terminal>:8080'' then server it and run it again.

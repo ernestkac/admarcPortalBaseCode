@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>edit text</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea" name="text" rows="30" cols="50"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+            const array = text.split("	");
+            text = "";
+            for (let index = 0; index < array.length; index++) {
+                text = text + 'SUM(' + array[index] + ') as ' + array[index] + ', ';
+                if (index % 3 == 0) {
+                    text = text + "\n";
+                }
+
+            }
+            textArea.value = text;
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

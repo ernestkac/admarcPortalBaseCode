@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Table</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td contenteditable="true">John Doe</td>
+                    <td contenteditable="true">30</td>
+                    <!-- Add more rows with data -->
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Bootstrap Table Editor extension -->
+    <script src="path/to/bootstrap-table-editable.js"></script>
+
+    <script>
+        // Initialize the table
+        $(document).ready(function () {
+            $('#myTable').bootstrapTable({
+                // Set your options here
+                // data: yourLocalDataArray,
+                // columns: [
+                //     { field: 'id', title: 'ID' },
+                //     { field: 'name', title: 'Name', editable: true },
+                //     { field: 'age', title: 'Age', editable: true }
+                //     // Add more columns with editable: true as needed
+                // ]
+            });
+        });
+    </script>
+</body>
+</html>

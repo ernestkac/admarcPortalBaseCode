@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>edit text</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea1" name="text" rows="30" cols="50"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <textarea id="textarea2" name="text" rows="30" cols="50"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var textArea1 = getElement("textarea1");
+            var textArea2 = getElement("textarea2");
+            var text1 = textArea1.value;
+            var text2 = textArea2.value;
+            var array1 = [];
+            var array2 = [];
+            array1 = text1.splite("  \n");
+            array1 = text2.splite("  \n");
+            var length1 = array1.length;
+            var length2 = array2.length;
+            var length;
+            if (length1 < length2) {
+                length = length1;
+            } else {
+                length = length2;
+            }
+            var j = 0;
+            for (let i = 0; i < length; i++) {
+                if (array1[i] != array2[j]) {
+
+                }
+
+            }
+            //text = text.replaceAll(",", "\n");
+            text = text.replaceAll(",", "\',\n'");
+            text = text + ".";
+            text = text.replace(",\n('.", ");");
+            textArea.value = text;
+            console.log(text);
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

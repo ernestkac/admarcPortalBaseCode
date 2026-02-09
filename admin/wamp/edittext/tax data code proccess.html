@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>edit text</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        font-family: "Lato", sans-serif
+    }
+    
+    .mySlides {
+        display: none
+    }
+</style>
+
+<body>
+
+    <form action="">
+        <textarea id="textarea" name="text" rows="30" cols="120"></textarea>
+        <br><br>
+        <label id="cols"></label>
+        <br><br>
+        <input id="submit" onclick="editText()" value="Submit">
+    </form>
+    <script>
+        function editText() {
+
+            var outputCode = 'IF OBJECT_ID(\'dbo.paye_tax_return\', \'V\') IS NOT NULL\n' +
+                'DROP VIEW dbo.paye_tax_return\n' +
+                'GO\n' +
+                'create view paye_tax_return\n' +
+                'as\n' +
+                'SELECT EmpId\n';
+
+            var selectPerPostPart = '';
+
+            var selectHeader = 'GROUP BY EmpId\;\n' +
+                'GO\n' +
+                'select Tin = \'\',Employee.Name , CONVERT(VARCHAR(10),BirthDate,104) birthday,W2EmpName.NameSuffix as Gender,\n' +
+                'XHR_Job.JobTitle as designation';
+
+            var lastPartOfSelectStatement = '';
+
+
+            var textArea = getElement("textarea");
+            var text = textArea.value;
+
+            const arrayRows = text.split('\n');
+            console.log(arrayRows);
+
+            for (let index = 0; index < arrayRows.length; index++) {
+                const row = arrayRows[index].split('\t');
+                console.log(row);
+
+                earnDedId = row[0].trim();
+                earnDedName = row[1].trim().replaceAll(' ', '_');
+                earnDedName = earnDedName.replaceAll('.', '_');
+                earnDedName = earnDedName.replaceAll('-', '_');
+                earnDedName = earnDedName.replaceAll('(', '_');
+                earnDedName = earnDedName.replaceAll(')', '_');
+                earnDedName = earnDedName.replaceAll('&', '_');
+                earnDedName = earnDedName.replaceAll('\'', '_');
+                earnDedName = earnDedName.replaceAll('\\', '_');
+                earnDedName = earnDedName.replaceAll('/', '_');
+                perpost = row[2].trim();
+
+                console.log('*' + earnDedId + '*');
+                console.log('*' + earnDedName + '*');
+
+                outputCode += ',MAX(CASE WHEN EarnDedId = \'' + earnDedId + '\' THEN TranAmt END) AS ' + earnDedName + '\n';
+
+                selectPerPostPart = '\nFROM PRTran\n' +
+                    'where PRTran.PerPost = \'' + perpost + '\'\n'
+
+                selectHeader += ',' + earnDedName;
+
+                lastPartOfSelectStatement = '\nfrom\n' +
+                    'Employee\n' +
+                    'left join W2EmpName on Employee.EmpId = W2EmpName.EmpId\n' +
+                    'left join paye_tax_return on Employee.EmpId = paye_tax_return.EmpId\n' +
+                    'left join XHR_Job on Employee.User6 = XHR_Job.JobId\n' +
+                    'where Employee.EmpId in\n' +
+                    '(select EmpId from PRTran where PerPost = \'' + perpost + '\' and PRTran.PerEnt = \'' + perpost + '\')\n' +
+                    'order by Name';
+
+            }
+
+            outputCode += selectPerPostPart + selectHeader + lastPartOfSelectStatement;
+            textArea.value = outputCode;
+
+            getElement("submit").value = "done!";
+            return false;
+        }
+
+        function getElement(id) {
+            return document.getElementById(id);
+        }
+    </script>
+
+</body>
+
+</html>

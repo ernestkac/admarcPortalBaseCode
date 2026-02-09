@@ -1,0 +1,106 @@
+
+.user-name { margin: 0; font-size: 25px; font-weight: bold; }
+.empid { font-size: 14px; }
+
+.bottom-profile-modal{
+    margin: 30px 20px;
+}
+#profileModal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6); /* Semi-transparent background */
+    }
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.profile-modal-content {
+      position: relative;
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 25px;
+      width: 450px;
+      max-width: 900px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family:Arial,sans-serif;
+    }
+    .row {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 150px max-content;
+      align-items: center;
+    }
+
+    .row small {
+      grid-column: 2;
+      margin-left: 0;
+      cursor:pointer;
+      font-size:12px;
+      color:#0074d9;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-info .role,
+    .user-info .market {
+      font-size: 20px;        /* same as Name */
+      font-weight: bold;
+      color: #000;
+    }
+
+    .user-info .last-login {
+      font-size: 12px;        /* keep small */
+      color: #666;
+    }
+
+.header{display:flex;align-items:center;margin-bottom:20px;}
+.avatar-wrapper{position:relative;width:80px;height:80px;border-radius:50%;overflow:hidden;margin-right:15px;}
+.avatar{width:100%;height:100%;object-fit:cover;}
+.avatar-pencil{position:absolute;bottom:4px;right:4px;font-size:14px;background:#fff;padding:2px;border-radius:50%;cursor:pointer;}
+.row label{font-weight:bold;}
+.switch{display: inline-block;padding:4px 10px;background:#0bf703;border-radius:12px;font-size:12px;}
+.dropdown{display:none;margin-top:5px;padding:5px;}
+.dropdown.show{display:block;}
+.name-edit {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.name-input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px; /* rounded left */
+  outline: none;
+  margin: 0px;
+}
+
+.name-ok {
+  padding: 6px 12px;
+  border: 1px solid #28a745;
+  background: #28a745;   /* green */
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0 20px 20px 0; /* rounded right */
+}
+
+.name-ok:hover {
+  background: #218838;
+}
