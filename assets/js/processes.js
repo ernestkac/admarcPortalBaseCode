@@ -104,7 +104,7 @@ function applyReleaseCABatchStyles() {
     // Attach handler for Release All button (will act on current table rows)
     releaseAllBtn.addEventListener('click', async function() {
         var buttons = Array.from(document.querySelectorAll('#batch_table_body button[data-batch]'))
-            .filter(b => b.textContent && b.textContent.trim() === 'Release');
+            .filter(b => b.textContent && b.textContent.trim() === 'Release' && !b.disabled);
         if (!buttons || buttons.length === 0) return;
         releaseAllBtn.disabled = true;
         releaseAllBtn.textContent = 'Releasing...';
@@ -249,6 +249,15 @@ function fetchDeletedCABatches(division = '202') {
 function populateBatchTable(batchData, mode = 'unreleased') {
     var tbody = document.getElementById('batch_table_body');
     tbody.innerHTML = ''; // Clear existing rows
+
+    // Build counts of batch numbers to detect duplicates so we can disable releases
+    var batchCounts = {};
+    if (Array.isArray(batchData)) {
+        batchData.forEach(function(r) {
+            var key = r && r.batnbr ? r.batnbr : '';
+            if (key !== '') batchCounts[key] = (batchCounts[key] || 0) + 1;
+        });
+    }
     
     if (batchData.length === 0) {
         // Show message if no data
@@ -317,6 +326,13 @@ function populateBatchTable(batchData, mode = 'unreleased') {
             releaseBtn.addEventListener('click', function() {
                 releaseSingleBatch(row.batnbr, this);
             });
+
+            // If this batch appears more than once in the dataset, disable release
+            if (batchCounts[row.batnbr] && batchCounts[row.batnbr] > 1) {
+                releaseBtn.disabled = true;
+                releaseBtn.title = 'Duplicate batch - appears multiple times; release disabled';
+            }
+            
             actionTd.appendChild(releaseBtn);
 
             // Add bin (void) button next to Release

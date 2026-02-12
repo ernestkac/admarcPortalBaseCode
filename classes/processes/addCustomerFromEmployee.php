@@ -92,9 +92,9 @@ class AddCustomerFromEmployee {
 					'".str_replace("'", "",trim($employeeValues['Name']))."','".trim($employeeValues['Phone'])."','"
 					.trim($employeeValues['Salut'])."','".trim($employeeValues['State'])."','0','',
 					'1900-01-01 00:00:00','','',' ','".trim($employeeValues['City'])."','LOC ',
-					'0','MW ','0','2024-04-17 14:00:00','08260 ','E.KACHINGW','','','','5',
+					'0','MW ','0',GETDATE(),'08260 ','E.KACHINGW','','','','5',
 					'".trim($employeeValues['EmpId'])."','DEFAULT ','0','','','0','',
-					'2024-04-17 14:00:00','08260 ','E.KACHINGW','".str_replace("'", "",trim($employeeValues['Name'])).
+					GETDATE(),'08260 ','E.KACHINGW','".str_replace("'", "",trim($employeeValues['Name'])).
 					"','0','0','202412','".trim($employeeValues['Phone'])."',' ','','240002',
 					'".trim($employeeValues['DfltExpSub'])."','','0','1','','','0','0','0','0',
 					'1900-01-01 00:00:00','1900-01-01 00:00:00','0','0','','','"

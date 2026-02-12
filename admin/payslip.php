@@ -662,7 +662,7 @@
                   <div class="chart-slide active" id="usageChartContainer">
                       <div class="controls">
                       <label for="chartMonthPicker">Select Month: </label>
-                      <input type="month" id="chartMonthPicker" value="2025-09">
+                      <input type="month" id="chartMonthPicker" value="<?php echo date('Y-m'); ?>">
                       </div>
                       <canvas id="usageChart"></canvas>
                   </div>
@@ -671,7 +671,7 @@
                   <div class="chart-slide" id="monthlyChartContainer">
                       <div class="controls">
                       <label for="yearPicker">Select Year: </label>
-                      <input type="number" id="yearPicker" value="2025" min="2024" max="2100">
+                      <input type="number" id="yearPicker" value="<?php echo date('Y'); ?>" min="2024" max="2100">
                       </div>
                       <canvas id="monthlyChart"></canvas>
                   </div>
@@ -680,6 +680,15 @@
                       
                       <canvas id="groupedMonthlyChart"></canvas>
                       
+                  </div>
+                  
+                  <!-- Chart 4: Usage Chart -->
+                  <div class="chart-slide" id="usageChartContainer">
+                      <div class="controls">
+                      <label for="chartdaysPicker">Select Month: </label>
+                      <input type="month" id="chartdaysPicker" value="<?php echo date('Y-m'); ?>">
+                      </div>
+                      <canvas id="dailyChart"></canvas>
                   </div>
 
                   <!-- Chart Description -->

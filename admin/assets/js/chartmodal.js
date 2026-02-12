@@ -16,6 +16,10 @@
             {
             title: "Monthly Chart by Names",
             description: "This chart shows monthly usage trends bt Name for a selected year."
+            },
+            {
+            title: "Daily Chart",
+            description: "This chart shows the daily login count for the selected month."
             }
         ];
 
@@ -43,11 +47,13 @@
         
         const chartMonthPicker = document.getElementById('chartMonthPicker');
         const yearPicker = document.getElementById('yearPicker');
+        const chartDaysPicker = document.getElementById('chartdaysPicker');
 
         const usageCtx = document.getElementById('usageChart').getContext('2d');
         const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
 
-        let usageChart, monthlyChart;
+        let usageChart, monthlyChart, dailyChart;
 
         async function fetchUsageByEmployee(month) {
             const res = await fetch(`namechart.php?month=${month}`);
@@ -56,6 +62,11 @@
 
         async function fetchUsageByMonth(year) {
             const res = await fetch(`monthchart.php?year=${year}`);
+            return await res.json();
+        }
+
+        async function fetchUsageByDay(month) {
+            const res = await fetch(`daychart.php?month=${month}`);
             return await res.json();
         }
 
@@ -121,6 +132,20 @@
                     }]
                 },
                 options: {
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const year = yearPicker.value;
+                            const month = String(index + 1).padStart(2, '0');
+                            const monthStr = `${year}-${month}`;
+
+                            chartDaysPicker.value = monthStr;
+                            fetchUsageByDay(monthStr).then(data => {
+                                createDailyChart(data, monthStr);
+                                showSlide(3);
+                            });
+                        }
+                    },
                     responsive: true,
                     animation: {
                         duration: 1000,
@@ -144,18 +169,71 @@
                 }
             });
         }
+        function getDaysInMonth(ym) {
+            if (!/^\d{4}-\d{2}$/.test(ym)) {
+                throw new Error("Invalid format. Use YYYY-MM");
+            }
+            const [y, m] = ym.split('-').map(Number);
+            return new Date(y, m, 0).getDate();
+        }
+
+        function createDailyChart(data, month) {
+            console.log("herehre"+month);
+            const daysInMonth = getDaysInMonth( month);
+            console.log("herehre"+daysInMonth);
+            const labels = Array.from({length: daysInMonth}, (_, i) => i + 1);
+            const counts = new Array(daysInMonth).fill(0);
+
+            data.forEach(row => {
+                if (row.day >= 1 && row.day <= daysInMonth) {
+                    counts[row.day - 1] = row.usage_count;
+                }
+            });
+
+            if (dailyChart) dailyChart.destroy();
+
+            dailyChart = new Chart(dailyCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Logins',
+                        data: counts,
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutCubic'
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Login Count' } },
+                        x: { title: { display: true, text: 'Day' } }
+                    }
+                }
+            });
+        }
 
         async function updateCharts() {
             const month = chartMonthPicker.value;
+            const monthDayChart = chartDaysPicker.value;
             const year = yearPicker.value;
 
             const usageData = await fetchUsageByEmployee(month);
             const monthlyData = await fetchUsageByMonth(year);
             const groupedData = await fetchGroupedMonthlyUsage(year);
+            const dailyData = await fetchUsageByDay(monthDayChart);
 
             createUsageChart(usageData);
             createMonthlyChart(monthlyData);
             createGroupedChart(groupedData);
+            createDailyChart(dailyData, monthDayChart);
         }
 
 
@@ -164,6 +242,7 @@
 
         // Event Listeners
         chartMonthPicker.addEventListener('change', updateCharts);
+        chartDaysPicker.addEventListener('change', updateCharts);
         yearPicker.addEventListener('change', updateCharts);
 
         //chart 3 monthly usage grouped by name

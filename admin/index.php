@@ -1,10 +1,10 @@
 <?php
 // Start session
-session_start();
+session_start(); 
     if(isset($_SESSION["name"])){
         session_unset();
         session_destroy();
-    }
+    } 
 
 require_once 'classes\authentication.php';
 require_once 'classes\EventLog.php';
@@ -113,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="assets/img/admarc-png-logo.png">
     <title>ADMARC LOGIN</title>
     <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/aquamarine.css" type="text/css">
     <script src="assets/js/navbar-ontop.js"></script>
     <script src="assets/js/animate-in.js"></script>
@@ -121,6 +122,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .valid:before { position: relative; left: -35px; content: "✔"; }
         .invalid { color: red; }
         .invalid:before { position: relative; left: -35px; content: "✖"; }
+        /* Password toggle */
+        .password-wrapper { position: relative; }
+        .password-wrapper .toggle-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -139,13 +143,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="number" placeholder="Employment Number" id="empid_input" name="empid_input" class="form-control" value="<?php echo h($empid_input); ?>"></input>
                         </div>
                         <div id="earning_deduction_input_div" class="form-group">
-                            <input type="password" placeholder="Password" id="password_input" name="password_input" maxlength="72" class="form-control"></input>
+                            <div class="password-wrapper">
+                                <input type="password" placeholder="Password" id="password_input" name="password_input" maxlength="72" class="form-control"></input>
+                                <i class="fa fa-eye toggle-password" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <div id="new_password_1_input_div" class="form-group change-password">
-                            <input type="password" placeholder="New Password" id="new_password_1_input" maxlength="72" oninput="validatePassword()" name="new_password_1_input" class="form-control"></input>
+                            <div class="password-wrapper">
+                                <input type="password" placeholder="New Password" id="new_password_1_input" maxlength="72" oninput="validatePassword()" name="new_password_1_input" class="form-control"></input>
+                                <i class="fa fa-eye toggle-password" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <div id="new_password_2_input_div" class="form-group change-password">
-                            <input type="password" placeholder="Retype New Password" id="new_password_2_input" maxlength="72" oninput="validatePassword2()" name="new_password_2_input" class="form-control"></input>
+                            <div class="password-wrapper">
+                                <input type="password" placeholder="Retype New Password" id="new_password_2_input" maxlength="72" oninput="validatePassword2()" name="new_password_2_input" class="form-control"></input>
+                                <i class="fa fa-eye toggle-password" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <input id="submit_button" type="submit" value="login" class="btn btn-primary"></input>
                         <div class="float-right form-group">
@@ -190,8 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function showHideChangePassword() {
         var label = document.getElementById('change_password_label');
-        var new1 = document.getElementById('new_password_1_input');
-        var new2 = document.getElementById('new_password_2_input');
+        var new1 = document.getElementById('new_password_1_input_div');
+        var new2 = document.getElementById('new_password_2_input_div');
         var submit = document.getElementById('submit_button');
 
         if (label.innerHTML.trim() === 'Log In') {
@@ -199,8 +212,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             label.innerHTML = 'Change Password';
             new1.style.display = 'none';
             new2.style.display = 'none';
-            new1.value = '';
-            new2.value = '';
         } else {
             submit.value = 'Change Password';
             label.innerHTML = 'Log In';
@@ -224,6 +235,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         return false;
     }
+
+    // Universal password visibility toggle for any .toggle-password inside .password-wrapper
+    document.addEventListener('DOMContentLoaded', function(){
+        document.querySelectorAll('.toggle-password').forEach(function(toggle){
+            toggle.addEventListener('click', function(){
+                var wrapper = toggle.closest('.password-wrapper');
+                if(!wrapper) return;
+                var input = wrapper.querySelector('input');
+                if(!input) return;
+                if(input.type === 'password'){
+                    input.type = 'text';
+                    toggle.classList.remove('fa-eye');
+                    toggle.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    toggle.classList.remove('fa-eye-slash');
+                    toggle.classList.add('fa-eye');
+                }
+            });
+        });
+    });
     </script>
 </body>
 </html>

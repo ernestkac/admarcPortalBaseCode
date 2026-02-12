@@ -68,6 +68,27 @@ class EventLog {
 		return false;
 		
 	}
+
+	public	function getUsageFrequncyByDay($month) {
+		$query = "
+				SELECT DAY(log_time) AS day, COUNT(*) AS usage_count
+				FROM ADMARCPortalLogs
+   				WHERE CONVERT(VARCHAR(7), log_time, 120) = '".$month."'
+				GROUP BY  DAY(log_time)
+			";
+
+
+		//var_dump($query);
+		$results = $this->databaseObject->PerformQuery( $query);
+		($results);
+		//(sqlsrv_errors());
+			if ($results)
+				return $results;
+		
+		return false;
+		
+	}
+
 	public	function getUsageFrequncyInMonth($year) {
 		$query = "
 				SELECT MONTH(log_time) AS month, COUNT(empid) AS usage_count

@@ -223,7 +223,7 @@ class BatchNumber {
      */
     public function unreleasedCABatches($division = '202') {
         $sql = "
-                SELECT TOP 50 c.batnbr, c.Acct, c.bankacct, c.sub, c.Crtd_User, c.Crtd_DateTime, c.TranAmt, c.DrCr, c.Perent, c.RefNbr, c.TranDesc
+                SELECT TOP 100 c.batnbr, c.Acct, c.bankacct, c.sub, c.Crtd_User, c.Crtd_DateTime, c.TranAmt, c.DrCr, c.Perent, c.RefNbr, c.TranDesc
                                                 FROM CATran c
                                                 INNER JOIN Batch b ON b.BatNbr = c.batnbr
                                                 WHERE b.Status = 'H'
@@ -252,7 +252,7 @@ class BatchNumber {
     }
      public function getDeletedCABatches($division = '202') {
         $sql = "
-        SELECT TOP 50 c.batnbr, c.Acct, c.bankacct, c.sub, c.Crtd_User, c.Crtd_DateTime, c.TranAmt, c.DrCr, c.Perent, c.RefNbr, c.TranDesc, b.status
+        SELECT TOP 100 c.batnbr, c.Acct, c.bankacct, c.sub, c.Crtd_User, c.Crtd_DateTime, c.TranAmt, c.DrCr, c.Perent, c.RefNbr, c.TranDesc, b.status
                         FROM CATran c
                         INNER JOIN Batch b ON b.BatNbr = c.batnbr
                         WHERE b.Status = 'V'

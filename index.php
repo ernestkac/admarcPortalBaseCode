@@ -96,6 +96,7 @@
         <title>ADMARC LOGIN</title>
         <!-- CSS dependencies -->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="assets/css/aquamarine.css" type="text/css">
         <!-- Script: Make my navbar transparent when the document is scrolled to top -->
         <script src="assets/js/navbar-ontop.js"></script>
@@ -123,6 +124,9 @@
             left: -35px;
             content: "✖";
             }
+            /* Password toggle */
+            .password-wrapper { position: relative; }
+            .password-wrapper .toggle-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; font-size: 18px; }
         </style>
     </head>
 
@@ -144,13 +148,22 @@
                                 <input type='number' placeholder="employement Number" id="empid_input" name="empid_input" class="form-control"></input>
                             </div>
                             <div id="earning_deduction_input_div" class="form-group">
-                                <input type='password' placeholder="Password" id="password_input" name="password_input" maxlength="30" class="form-control"></input>
+                                <div class="password-wrapper">
+                                    <input type='password' placeholder="Password" id="password_input" name="password_input" maxlength="30" class="form-control"></input>
+                                    <i class="fa fa-eye toggle-password" id="toggle_password" aria-hidden="true"></i>
+                                </div>
                             </div>
                             <div id="new_password_1_input_div" class="form-group change-password">
-                                <input type='password' placeholder="New Password" id="new_password_1_input" maxlength="30" oninput='validatePassword()' name="new_password_1_input" class="form-control"></input>
+                                <div class="password-wrapper">
+                                    <input type='password' placeholder="New Password" id="new_password_1_input" maxlength="30" oninput='validatePassword()' name="new_password_1_input" class="form-control"></input>
+                                    <i class="fa fa-eye toggle-password" id="toggle_new_password_1" aria-hidden="true"></i>
+                                </div>
                             </div>
                             <div id="new_password_2_input_div" class="form-group change-password">
-                                <input type='password' placeholder="Retype New Password" id="new_password_2_input" maxlength="30" oninput='validatePassword2()' name="new_password_2_input" class="form-control"></input>
+                                <div class="password-wrapper">
+                                    <input type='password' placeholder="Retype New Password" id="new_password_2_input" maxlength="30" oninput='validatePassword2()' name="new_password_2_input" class="form-control"></input>
+                                    <i class="fa fa-eye toggle-password" id="toggle_new_password_2" aria-hidden="true"></i>
+                                </div>
                             </div>
                             <input id="submit_button" type="submit" value="login" class="btn btn-primary"></input>
                             <div class="float-right form-group">
@@ -256,16 +269,16 @@ function showHideChangePassword() {
         document.getElementById('submit_button').value = 'Log In';
         document.getElementById('change_password_label').innerHTML = 'Change Password';
         
-        document.getElementById('new_password_1_input').style.display='none';
-        document.getElementById('new_password_2_input').style.display='none';
+        document.getElementById('new_password_1_input_div').style.display='none';
+        document.getElementById('new_password_2_input_div').style.display='none';
         document.getElementById('new_password_1_input').value='';
         document.getElementById('new_password_2_input').value='';
     }else{
         document.getElementById('submit_button').value = 'Change Password';
         document.getElementById('change_password_label').innerHTML = 'Log In';
         
-        document.getElementById('new_password_1_input').style.display='block';
-        document.getElementById('new_password_2_input').style.display='block';
+        document.getElementById('new_password_1_input_div').style.display='block';
+        document.getElementById('new_password_2_input_div').style.display='block';
     }
     
 }
@@ -330,6 +343,27 @@ console.log(hashedPassword); // Store this hashed password in the database
 const userPassword = 'your_password'; // This should be taken from user input
 console.log(checkPassword(userPassword, hashedPassword)); // Returns true if passwords match
  */       
+        // Password visibility toggle for all icons
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.toggle-password').forEach(function(toggle){
+                toggle.addEventListener('click', function(){
+                    var wrapper = toggle.closest('.password-wrapper');
+                    if(!wrapper) return;
+                    var input = wrapper.querySelector('input');
+                    if(!input) return;
+                    if(input.type === 'password'){
+                        input.type = 'text';
+                        toggle.classList.remove('fa-eye');
+                        toggle.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        toggle.classList.remove('fa-eye-slash');
+                        toggle.classList.add('fa-eye');
+                    }
+                });
+            });
+        });
+
         </script>
     </body>
 

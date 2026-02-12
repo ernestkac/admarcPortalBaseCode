@@ -56,13 +56,13 @@ class AddEarningOrDeduction {
 						, [TrnsDate], [User1], [User2], [User3]
 						, [User4], [User5], [User6], [User7], [User8])
 					VALUES
-						('".$earningCode."',0,0,0,0,0,0,'".$this->databaseObject->CpnyID[$this->databaseNumber]."','2021-09-16 08:49:00','02250','E.KACHINGW',0,0,0,0,0,0,'1900-01-01 00:00:00',
+						('".$earningCode."',0,0,0,0,0,0,'".$this->databaseObject->CpnyID[$this->databaseNumber]."',GETDATE(),'02250','E.KACHINGW',0,0,0,0,0,0,'1900-01-01 00:00:00',
 						'1900-01-01 00:00:00','1900-01-01 00:00:00',0,0,'".$EmpId."',
 						0,'1900-01-01 00:00:00','1900-01-01 00:00:00',
-						'1900-01-01 00:00:00','2023-07-29 20:48:00','02250','E.KACHINGW',
+						'1900-01-01 00:00:00',GETDATE(),'02250','E.KACHINGW',
 						0,0,'','',0,	0,	0,	0,	'1900-01-01 00:00:00',
 						'1900-01-01 00:00:00',	0,	0,'','','A',
-						'',0,'1900-01-01 00:00:00','".$PerPost."','',".$amount.",	".$taxableAmount.",'','".$numberOfPeriods."','1900-01-01 00:00:00',
+						'',0,'1900-01-01 00:00:00','".$PerPost."','".$numberOfPeriods."',".$amount.",	".$taxableAmount.",'','','1900-01-01 00:00:00',
 						'1900-01-01 00:00:00')";
 
 					$deleteQuery = "delete from benemp where empid = "
@@ -88,8 +88,8 @@ class AddEarningOrDeduction {
 							, [S4Future12], [User1], [User2], [User3]
 							, [User4], [User5], [User6], [User7], [User8], [WrkLocId], [YtdPerTkn], [YtdRptEarnSubjDed], [YtdUnits])
 						VALUES
-							(".$amount.",".$taxableAmount.",	0,	0,	0,	0,	".$calyr.",	0,	'".$this->databaseObject->CpnyID[$this->databaseNumber]."','2023-03-15 16:45:00',	'2250','SYSADMIN',
-							0,	0,	0,	0,	'".$earningCode."','V',	'D',	'".$EmpId."',0,0,	'2023-08-14 14:02:00',	'2250',    	'SYSADMIN',
+							(".$amount.",".$taxableAmount.",	0,	0,	0,	0,	".$calyr.",	0,	'".$this->databaseObject->CpnyID[$this->databaseNumber]."',GETDATE(),	'2250','SYSADMIN',
+							0,	0,	0,	0,	'".$earningCode."','V',	'D',	'".$EmpId."',0,0,	GETDATE(),	'2250',    	'SYSADMIN',
 							0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 							0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,'','',0,	0,	0,	0,
 							'1900-01-01 00:00:00',	'1900-01-01 00:00:00',	0,	0,'','', '".$PerPost."','".$numberOfPeriods."',".$amount.",	".$taxableAmount.",'','202404',
